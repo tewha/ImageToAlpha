@@ -38,13 +38,45 @@ struct ImageToAlpha: ParsableCommand {
         }
 
         // Load the image.
-        guard let inputImage = NSImage(contentsOfFile: inputPath),
-              let tiffData = inputImage.tiffRepresentation,
-              let bitmap = NSBitmapImageRep(data: tiffData) else {
+        guard let inputImage = NSImage(contentsOfFile: inputPath) else {
             throw ValidationError("Failed to load image at \(inputPath). Ensure it is a valid PNG file.")
         }
-        let width = bitmap.pixelsWide
-        let height = bitmap.pixelsHigh
+
+        // Determine pixel dimensions from the best representation.
+        guard let bestRep = inputImage.representations.max(by: { $0.pixelsWide * $0.pixelsHigh < $1.pixelsWide * $1.pixelsHigh }) else {
+            throw ValidationError("Failed to determine image pixel dimensions.")
+        }
+        let width = bestRep.pixelsWide
+        let height = bestRep.pixelsHigh
+
+        // Create a new bitmap with alpha channel.
+        guard let bitmap = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: width,
+            pixelsHigh: height,
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .calibratedRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0) else {
+            throw ValidationError("Failed to create bitmap representation.")
+        }
+
+        // Draw the input image into the bitmap context to get a bitmap with alpha.
+        NSGraphicsContext.saveGraphicsState()
+        guard let context = NSGraphicsContext(bitmapImageRep: bitmap) else {
+            throw ValidationError("Failed to create graphics context.")
+        }
+        NSGraphicsContext.current = context
+        context.cgContext.clear(CGRect(x: 0, y: 0, width: width, height: height))
+        inputImage.draw(in: CGRect(x: 0, y: 0, width: width, height: height),
+                        from: .zero,
+                        operation: .copy,
+                        fraction: 1.0)
+        NSGraphicsContext.restoreGraphicsState()
+
         guard let data = bitmap.bitmapData else {
             throw ValidationError("Cannot access bitmap data.")
         }
