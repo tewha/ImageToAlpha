@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		48B00C0C2E1AB32100D6C618 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 48B00C0B2E1AB32100D6C618 /* ArgumentParser */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		48B00BFE2E1AB2C800D6C618 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -35,6 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				48B00C0C2E1AB32100D6C618 /* ArgumentParser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,7 @@
 			);
 			name = ImageToAlpha;
 			packageProductDependencies = (
+				48B00C0B2E1AB32100D6C618 /* ArgumentParser */,
 			);
 			productName = ImageToAlpha;
 			productReference = 48B00C002E1AB2C800D6C618 /* ImageToAlpha */;
@@ -106,6 +112,9 @@
 			);
 			mainGroup = 48B00BF72E1AB2C800D6C618;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				48B00C0A2E1AB32100D6C618 /* XCRemoteSwiftPackageReference "swift-argument-parser" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 48B00C012E1AB2C800D6C618 /* Products */;
 			projectDirPath = "";
@@ -293,6 +302,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		48B00C0A2E1AB32100D6C618 /* XCRemoteSwiftPackageReference "swift-argument-parser" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-argument-parser.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		48B00C0B2E1AB32100D6C618 /* ArgumentParser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48B00C0A2E1AB32100D6C618 /* XCRemoteSwiftPackageReference "swift-argument-parser" */;
+			productName = ArgumentParser;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 48B00BF82E1AB2C800D6C618 /* Project object */;
 }
